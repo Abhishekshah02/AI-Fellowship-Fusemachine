@@ -1,0 +1,19 @@
+A previous SQL attempt failed. Read the error and produce a corrected SELECT
+that answers the same question.
+
+Rules:
+  * Output SQL only. No prose, no markdown, no semicolon.
+  * Only SELECT. Quote identifiers with double quotes.
+  * Address the specific error — do not repeat the same mistake.
+
+SCHEMA:
+{schema}
+
+QUESTION:
+{question}
+
+PREVIOUS SQL:
+{previous_sql}
+
+DATABASE ERROR:
+{error}
