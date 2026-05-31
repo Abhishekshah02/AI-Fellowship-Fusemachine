@@ -1,0 +1,108 @@
+{
+  "model_name": "telco_churn_classifier",
+  "version": "1.0.0",
+  "training_date": "2026-05-31",
+  "framework": "scikit-learn 1.7.2 + imbalanced-learn 0.14.1",
+  "pipeline_file": "telco_churn_pipeline_v1.joblib",
+  "task": "binary_classification",
+  "target": {
+    "name": "Churn",
+    "positive_class": "Yes (=1)",
+    "negative_class": "No (=0)",
+    "positive_rate": 0.265
+  },
+  "pipeline_steps": [
+    {
+      "name": "preprocessor",
+      "type": "ColumnTransformer",
+      "numeric": "SimpleImputer(strategy='median') -> StandardScaler()",
+      "categorical": "SimpleImputer(strategy='most_frequent') -> OneHotEncoder(handle_unknown='ignore', sparse_output=False)"
+    },
+    {
+      "name": "smote",
+      "type": "imblearn.over_sampling.SMOTE",
+      "random_state": 42,
+      "note": "Inside ImbPipeline so it runs only on training folds during CV"
+    },
+    {
+      "name": "classifier",
+      "type": "RandomForestClassifier",
+      "n_estimators": 100,
+      "random_state": 42,
+      "n_jobs": -1
+    }
+  ],
+  "training_data": {
+    "source": "https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv",
+    "n_rows_total": 7043,
+    "n_features_raw": 19,
+    "split": {
+      "test_size": 0.2,
+      "stratified_on": "Churn",
+      "random_state": 42
+    }
+  },
+  "data_quality_fixes": [
+    "TotalCharges coerced to numeric with errors='coerce' (whitespace cells -> NaN)",
+    "TotalCharges NaNs imputed with column median",
+    "customerID column dropped (identifier, no predictive value)",
+    "Churn target mapped Yes/No -> 1/0"
+  ],
+  "metrics_test_set": {
+    "auroc": 0.8140,
+    "precision_churn": 0.57,
+    "recall_churn": 0.55,
+    "f1_churn": 0.56,
+    "accuracy_overall": 0.77
+  },
+  "metrics_cross_validation": {
+    "auroc_mean": 0.8133,
+    "auroc_std": 0.0104,
+    "cv_strategy": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)"
+  },
+  "baseline_comparison": {
+    "naive_decision_tree_auroc": 0.66,
+    "bagging_auroc": 0.8081,
+    "random_forest_auroc": 0.8225,
+    "leaked_pipeline_auroc": 0.9251,
+    "leakage_inflation_pp": 11.19,
+    "note": "leaked_pipeline_auroc is INVALID — applies SMOTE before CV. Kept only as a teaching reference for the inflation magnitude."
+  },
+  "top_features_shap": [
+    {"rank": 1, "feature": "tenure", "direction": "low -> high churn risk"},
+    {"rank": 2, "feature": "Contract_Month-to-month", "direction": "= 1 -> high churn risk"},
+    {"rank": 3, "feature": "InternetService_Fiber optic", "direction": "= 1 -> higher churn risk"}
+  ],
+  "expected_input_schema": {
+    "columns": [
+      "gender", "SeniorCitizen", "Partner", "Dependents", "tenure",
+      "PhoneService", "MultipleLines", "InternetService",
+      "OnlineSecurity", "OnlineBackup", "DeviceProtection", "TechSupport",
+      "StreamingTV", "StreamingMovies",
+      "Contract", "PaperlessBilling", "PaymentMethod",
+      "MonthlyCharges", "TotalCharges"
+    ],
+    "note": "Same column names and dtypes as the original Kaggle Telco CSV after dropping customerID and Churn. TotalCharges must be numeric (caller is responsible for coercion + NaN handling, same as training)."
+  },
+  "known_limitations": [
+    "Predictions are bounded by the training distribution (Random Forest cannot extrapolate).",
+    "Single-snapshot training data does not capture promotional or seasonal churn dynamics.",
+    "No production drift monitoring is bundled with the model — set up separately.",
+    "Class threshold defaults to 0.5; for retention use a lower threshold to favour recall."
+  ],
+  "retraining_policy": {
+    "trigger_metric": "rolling 30-day AUROC",
+    "trigger_threshold": 0.76,
+    "scheduled_cadence": "quarterly",
+    "monitor_for_new_categories": [
+      "Contract",
+      "PaymentMethod",
+      "InternetService"
+    ]
+  },
+  "fairness_audit_groups": [
+    "SeniorCitizen vs non-senior",
+    "Partner vs single",
+    "Dependents vs no Dependents"
+  ]
+}
