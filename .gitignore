@@ -64,3 +64,13 @@ Thumbs.db
 # Docs build output
 # ---------------------------------------------------------------------------
 site/
+
+
+.claude/
+.playwright-mcp/
+
+# ---------------------------------------------------------------------------
+# Large model artefacts (submit separately to Classroom — exceed GitHub's 100 MB limit)
+# ---------------------------------------------------------------------------
+*.pkl
+*.joblib
