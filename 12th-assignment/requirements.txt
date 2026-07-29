@@ -1,0 +1,13 @@
+# NER assignment dependencies.
+# NOTE: no separate venv here — reuses ../10th-assignment/.venv (Python 3.10),
+# which already had torch/pandas/matplotlib. The packages below were added to it:
+#   ../10th-assignment/.venv/Scripts/python.exe -m pip install -r requirements.txt
+datasets
+scikit-learn
+sklearn-crfsuite
+seqeval
+seaborn
+matplotlib
+numpy
+nbformat
+nbconvert
