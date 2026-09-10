@@ -20,7 +20,12 @@ Customer → Streamlit UI → FastAPI → [ONNX intent router ‖ Chroma retriev
                                   → validated ChatResponse
 ```
 
-Full diagrams: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
+**Architecture diagram: [docs/architecture.png](docs/architecture.png)** (source:
+[architecture.svg](docs/architecture.svg)). Sequence and deployment diagrams:
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Assignment checklist:
+**[DELIVERABLES.md](DELIVERABLES.md)**.
+
+![Architecture](docs/architecture.png)
 
 ![ShopAssist AI](docs/screenshot.png)
 
