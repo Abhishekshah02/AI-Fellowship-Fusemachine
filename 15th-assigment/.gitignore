@@ -1,0 +1,31 @@
+# Rules here override the repository-root .gitignore for everything under
+# 15th-assigment/. The root file ignores `data/` at any depth, which would drop
+# the knowledge base and the order database this app is built on, so the
+# directory is re-included first and the generated parts excluded again below.
+#
+# Note: .gitignore has no inline comments -- a trailing "# ..." becomes part of
+# the pattern and silently breaks the rule. Every comment here is on its own line.
+
+!data/
+
+# secrets: .env holds the real API key, .env.example is the committed template
+.env
+.venv/
+venv/
+
+# generated at runtime, rebuilt on first boot -- never commit
+# the vector index (binary, rebuilt by POST /ingest or on startup)
+data/chroma/
+# tickets the assistant opens while you demo it
+data/tickets.jsonl
+api.log
+ui.log
+
+# caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.playwright-mcp/
+
+# models/router/*.onnx IS committed on purpose: 429 KB, and the app needs it to
+# route intents without anyone having to run a training job first.

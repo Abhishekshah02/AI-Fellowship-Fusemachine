@@ -1,0 +1,70 @@
+name: shopassist
+
+services:
+  api:
+    build: .
+    image: shopassist-ai:1.0.0
+    ports:
+      - "8080:8080"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Compose interpolates these from .env or the host shell.
+      PROVIDER: ${PROVIDER:-claude}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      PRIMARY_MODEL: ${PRIMARY_MODEL:-claude-opus-5}
+      # Any OpenAI-compatible endpoint: Groq, OpenRouter, Gemini, or the vllm
+      # service below. localhost inside a container is the container itself, so
+      # a server on your host machine is host.docker.internal, not localhost.
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-http://vllm:8000/v1}
+      OPENAI_MODEL: ${OPENAI_MODEL:-mistralai/Mistral-7B-Instruct-v0.3}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-EMPTY}
+      TICKETS_PATH: /srv/data/tickets/tickets.jsonl
+    volumes:
+      # Persist the index and the tickets the assistant creates.
+      - chroma:/srv/data/chroma
+      - tickets:/srv/data/tickets
+    restart: unless-stopped
+
+  ui:
+    build: .
+    image: shopassist-ai:1.0.0
+    command: ["streamlit", "run", "app/ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8080
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Local open-source model, OpenAI-compatible, used as the fallback provider.
+  # Needs an NVIDIA GPU, so it is opt-in:  docker compose --profile gpu up
+  vllm:
+    image: vllm/vllm-openai:latest
+    profiles: ["gpu"]
+    command:
+      - "--model=${OPENAI_MODEL:-mistralai/Mistral-7B-Instruct-v0.3}"
+      - "--max-model-len=8192"
+      - "--gpu-memory-utilization=0.90"
+    ports:
+      - "8000:8000"
+    environment:
+      HUGGING_FACE_HUB_TOKEN: ${HUGGING_FACE_HUB_TOKEN:-}
+    volumes:
+      - hf:/root/.cache/huggingface
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  chroma:
+  tickets:
+  hf:

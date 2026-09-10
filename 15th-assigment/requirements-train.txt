@@ -1,0 +1,9 @@
+# Training / export only -- never installed into the serving image.
+-r requirements.txt
+datasets>=2.20
+scikit-learn>=1.4
+skl2onnx>=1.17          # --backend tfidf
+onnx>=1.16
+# --backend distilbert additionally needs:
+# torch>=2.2
+# transformers>=4.44
