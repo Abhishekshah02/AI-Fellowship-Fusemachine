@@ -1,0 +1,67 @@
+[
+  {
+    "order_id": "SA-10231",
+    "email": "ava.patel@example.com",
+    "status": "SHIPPED",
+    "placed_at": "2026-08-28",
+    "delivery_estimate": "2026-09-02",
+    "carrier": "DHL",
+    "tracking": "JD0002210934",
+    "payment_method": "Visa ****4412",
+    "total_usd": 189.5,
+    "items": [
+      {"sku": "HD-900", "name": "Noise Cancelling Headphones", "qty": 1, "price_usd": 179.0},
+      {"sku": "CB-USB", "name": "USB-C Cable 2m", "qty": 1, "price_usd": 10.5}
+    ]
+  },
+  {
+    "order_id": "SA-10244",
+    "email": "ava.patel@example.com",
+    "status": "PROCESSING",
+    "placed_at": "2026-09-08",
+    "delivery_estimate": "2026-09-12",
+    "carrier": null,
+    "tracking": null,
+    "payment_method": "PayPal",
+    "total_usd": 42.0,
+    "items": [{"sku": "MG-BLU", "name": "Ceramic Mug", "qty": 2, "price_usd": 21.0}]
+  },
+  {
+    "order_id": "SA-10188",
+    "email": "liam.osei@example.com",
+    "status": "DELIVERED",
+    "placed_at": "2026-07-30",
+    "delivery_estimate": "2026-08-03",
+    "carrier": "UPS",
+    "tracking": "1Z999AA10123456784",
+    "payment_method": "Mastercard ****7781",
+    "total_usd": 76.25,
+    "items": [{"sku": "SH-RUN", "name": "Trail Running Shoes", "qty": 1, "price_usd": 76.25}],
+    "refund": {"status": "REFUNDED", "amount_usd": 76.25, "scanned_at": "2026-08-20", "method": "Mastercard ****7781"}
+  },
+  {
+    "order_id": "SA-10301",
+    "email": "mei.tanaka@example.com",
+    "status": "PENDING",
+    "placed_at": "2026-09-10",
+    "delivery_estimate": "2026-09-15",
+    "carrier": null,
+    "tracking": null,
+    "payment_method": "Visa ****0091",
+    "total_usd": 310.0,
+    "items": [{"sku": "TB-11", "name": "Tablet 11 inch", "qty": 1, "price_usd": 310.0}]
+  },
+  {
+    "order_id": "SA-10099",
+    "email": "mei.tanaka@example.com",
+    "status": "DELIVERED",
+    "placed_at": "2026-06-14",
+    "delivery_estimate": "2026-06-18",
+    "carrier": "FedEx",
+    "tracking": "7749 1122 3344",
+    "payment_method": "Visa ****0091",
+    "total_usd": 24.99,
+    "items": [{"sku": "LM-DSK", "name": "Desk Lamp", "qty": 1, "price_usd": 24.99}],
+    "refund": {"status": "PENDING", "amount_usd": 24.99, "scanned_at": "2026-09-05", "method": "Visa ****0091"}
+  }
+]

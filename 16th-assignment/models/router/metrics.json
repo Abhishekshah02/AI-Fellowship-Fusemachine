@@ -1,0 +1,8 @@
+{
+  "accuracy": 0.9981,
+  "macro_precision": 0.9986,
+  "macro_recall": 0.9984,
+  "macro_f1": 0.9985,
+  "backend": "tfidf",
+  "train_seconds": 6.3
+}

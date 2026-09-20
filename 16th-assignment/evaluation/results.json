@@ -1,0 +1,622 @@
+[
+  {
+    "id": "dup_charge",
+    "mode": "multi_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 5,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10231) -> status=SHIPPED, placed=2026-08-28, total=$189.5, payment=Visa ****4412, refund=none recorded",
+      "inspect_payments(SA-10231) -> 3 events [AUTHORISATION, CAPTURE, CAPTURE]; 2 capture(s) totalling $379.00, 0 refund(s) totalling $0.00",
+      "search_policy('duplicate charge refund policy') -> 5 chunks: payments_and_invoices.md#5, payments_and_invoices.md#4, refunds_and_returns.md#4, refunds_and_returns.md#0, refunds_and_returns.md#5",
+      "resolve_case -> 2 finding(s), 2 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 4,
+    "valid_tool_calls": 4,
+    "tokens_total": 11638,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 5,
+        "prompt_tokens": 6892,
+        "completion_tokens": 1121,
+        "total_tokens": 8013
+      },
+      "verifier": {
+        "calls": 2,
+        "prompt_tokens": 3340,
+        "completion_tokens": 285,
+        "total_tokens": 3625
+      }
+    },
+    "latency_ms": 33499,
+    "context_saved_chars": 3371,
+    "verifier_rejections": 1,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "We\u2019ve looked into order **SA-10231** and see that two capture transactions were recorded for the same order, resulting in a duplicate charge of $189.50. According to our policy, when an order has two captures we must refund the duplicate and notify our payments team. I\u2019ve escalated this to the payments team, and they will issue a refund for the extra $189.50. The refund should appear on your statement within the normal processing time.\n\nIf you have any further questions, please let us know."
+  },
+  {
+    "id": "refund_pending_in_window",
+    "mode": "multi_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 4,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10099) -> status=DELIVERED, placed=2026-06-14, total=$24.99, payment=Visa ****0091, refund=PENDING $24.99",
+      "inspect_payments(SA-10099) -> 3 events [AUTHORISATION, CAPTURE, RETURN_SCANNED]; 1 capture(s) totalling $24.99, 0 refund(s) totalling $0.00",
+      "search_policy('refund processing time when will refund appear') -> 5 chunks: refunds_and_returns.md#3, refunds_and_returns.md#5, shipping_and_delivery.md#3, orders_and_cancellations.md#4, refunds_and_returns.md#0",
+      "resolve_case -> 2 finding(s), 3 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 4,
+    "valid_tool_calls": 4,
+    "tokens_total": 7896,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 4,
+        "prompt_tokens": 5266,
+        "completion_tokens": 881,
+        "total_tokens": 6147
+      },
+      "verifier": {
+        "calls": 1,
+        "prompt_tokens": 1649,
+        "completion_tokens": 100,
+        "total_tokens": 1749
+      }
+    },
+    "latency_ms": 14546,
+    "context_saved_chars": 2525,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "I\u2019m sorry you\u2019re still waiting for your refund. Our records show that the return for order **SA\u201110099** was scanned by the warehouse, which triggers the refund process. For credit or debit card payments (like the Visa ending in\u202f0091 you used), the refund is typically posted to the original card **5\u20137 business days after the scan**. \n\nBecause the scan was recent, the refund may still be in transit to your bank. If you don\u2019t see the credit on your statement after 7 business days from the scan date, please let us know and we\u2019ll have our payments team investigate further.\n\nThank you for your patience!"
+  },
+  {
+    "id": "refund_already_paid",
+    "mode": "multi_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 6,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10188) -> status=DELIVERED, placed=2026-07-30, total=$76.25, payment=Mastercard ****7781, refund=REFUNDED $76.25",
+      "inspect_payments(SA-10188) -> 3 events [AUTHORISATION, CAPTURE, REFUND]; 1 capture(s) totalling $76.25, 1 refund(s) totalling $76.25",
+      "search_policy('refund processing time how long does it take for refund to appear on card') -> 5 chunks: refunds_and_returns.md#3, orders_and_cancellations.md#4, refunds_and_returns.md#5, shipping_and_delivery.md#3, refunds_and_returns.md#1",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy('refund processing time') -> 1 chunks: refunds_and_returns.md#3",
+      "resolve_case -> 3 finding(s), 2 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 6,
+    "valid_tool_calls": 6,
+    "tokens_total": 10707,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 6,
+        "prompt_tokens": 7916,
+        "completion_tokens": 1238,
+        "total_tokens": 9154
+      },
+      "verifier": {
+        "calls": 1,
+        "prompt_tokens": 1435,
+        "completion_tokens": 118,
+        "total_tokens": 1553
+      }
+    },
+    "latency_ms": 29014,
+    "context_saved_chars": 3306,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Hi there \u2013 I\u2019ve checked the details for order\u202fSA\u201110188. Our system shows that a full refund of $76.25 was issued for this order (see the refund entry on the order and the REFUND event in the payment ledger). According to our policy, refunds to credit or debit cards are posted to the card within\u202f5\u20117\u202fbusiness days after the warehouse scans the returned items. If you haven\u2019t seen the credit on your statement after that period, please check with your card issuer as they sometimes need a little extra time to post the credit. If the amount still isn\u2019t showing after 7\u202fbusiness days, let us know and we\u2019ll investigate further."
+  },
+  {
+    "id": "failed_authorisation",
+    "mode": "multi_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 7,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10301) -> status=PENDING, placed=2026-09-10, total=$310.0, payment=Visa ****0091, refund=none recorded",
+      "search_policy('order pending status shipping estimate processing time policy') -> 5 chunks: orders_and_cancellations.md#1, shipping_and_delivery.md#3, shipping_and_delivery.md#2, contact_and_escalation.md#3, orders_and_cancellations.md#5",
+      "inspect_payments(SA-10301) -> 1 events [AUTHORISATION_FAILED]; 0 capture(s) totalling $0.00, 0 refund(s) totalling $0.00",
+      "search_policy('payment authorisation failed pending order shipping delay') -> 5 chunks: orders_and_cancellations.md#5, orders_and_cancellations.md#4, shipping_and_delivery.md#3, orders_and_cancellations.md#1, payments_and_invoices.md#2",
+      "resolve_case -> 4 finding(s), 4 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 5,
+    "valid_tool_calls": 5,
+    "tokens_total": 19218,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 7,
+        "prompt_tokens": 10599,
+        "completion_tokens": 2826,
+        "total_tokens": 13425
+      },
+      "verifier": {
+        "calls": 3,
+        "prompt_tokens": 5396,
+        "completion_tokens": 397,
+        "total_tokens": 5793
+      }
+    },
+    "latency_ms": 93513,
+    "context_saved_chars": 6832,
+    "verifier_rejections": 2,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Hi there \u2013 I\u2019ve looked into order\u202fSA\u201110301 for you. The order is still in **PENDING** status because the payment authorisation failed (see the payment ledger). According to our policy, an order that fails authorisation remains pending for up to **60\u202fminutes** and is then automatically cancelled; no stock is held after that point. Since the authorisation never succeeded, the order will be cancelled automatically and will not be shipped. You won\u2019t be charged for this order, and you\u2019re free to place a new order using a different payment method.\n\nIf you\u2019d like to try again or need help choosing another payment option, just let us know and we\u2019ll be happy to assist."
+  },
+  {
+    "id": "missing_order_id",
+    "mode": "multi_agent",
+    "outcome": "needs_input",
+    "completed": true,
+    "iterations": 1,
+    "max_steps": 4,
+    "trajectory": [
+      "request_information -> asked customer: Could you please provide your order number and the amount you believe was overcharged? This will help us investigate the issue."
+    ],
+    "tools_used": [
+      "request_information"
+    ],
+    "arg_problems": [],
+    "tool_calls": 1,
+    "valid_tool_calls": 1,
+    "tokens_total": 1128,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 1,
+        "prompt_tokens": 1014,
+        "completion_tokens": 114,
+        "total_tokens": 1128
+      }
+    },
+    "latency_ms": 1091,
+    "context_saved_chars": 0,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Could you please provide your order number and the amount you believe was overcharged? This will help us investigate the issue."
+  },
+  {
+    "id": "unknown_order",
+    "mode": "multi_agent",
+    "outcome": "needs_input",
+    "completed": true,
+    "iterations": 2,
+    "max_steps": 4,
+    "trajectory": [
+      "inspect_order(SA-99999) -> NOT FOUND",
+      "request_information -> asked customer: I couldn't find an order with ID SA-99999. Could you please double\u2011check the order number and provide the correct one?"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "request_information"
+    ],
+    "arg_problems": [],
+    "tool_calls": 2,
+    "valid_tool_calls": 2,
+    "tokens_total": 2226,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 2,
+        "prompt_tokens": 2066,
+        "completion_tokens": 160,
+        "total_tokens": 2226
+      }
+    },
+    "latency_ms": 1391,
+    "context_saved_chars": 68,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "I couldn't find an order with ID SA-99999. Could you please double\u2011check the order number and provide the correct one?"
+  },
+  {
+    "id": "lost_parcel_escalation",
+    "mode": "multi_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 7,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10188) -> status=DELIVERED, placed=2026-07-30, total=$76.25, payment=Mastercard ****7781, refund=REFUNDED $76.25",
+      "inspect_payments(SA-10188) -> 3 events [AUTHORISATION, CAPTURE, REFUND]; 1 capture(s) totalling $76.25, 1 refund(s) totalling $76.25",
+      "search_policy('refund undelivered order policy') -> 5 chunks: refunds_and_returns.md#5, payments_and_invoices.md#5, refunds_and_returns.md#4, refunds_and_returns.md#0, shipping_and_delivery.md#3",
+      "search_policy('refund processing time') -> 5 chunks: refunds_and_returns.md#3, refunds_and_returns.md#5, shipping_and_delivery.md#3, refunds_and_returns.md#0, refunds_and_returns.md#4",
+      "resolve_case -> 4 finding(s), 3 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 5,
+    "valid_tool_calls": 5,
+    "tokens_total": 18714,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 7,
+        "prompt_tokens": 10663,
+        "completion_tokens": 2394,
+        "total_tokens": 13057
+      },
+      "verifier": {
+        "calls": 3,
+        "prompt_tokens": 5206,
+        "completion_tokens": 451,
+        "total_tokens": 5657
+      }
+    },
+    "latency_ms": 60595,
+    "context_saved_chars": 6040,
+    "verifier_rejections": 2,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "I\u2019m sorry you never received your order. Our records show that order **SA\u201110188** was marked as delivered, but a full refund of **$76.25** was already processed for you. The refund was issued to the original Mastercard ending in\u202f****7781. \n\nAccording to our policy, parcels that are lost in transit are refunded in full, including shipping costs. Refunds to credit or debit cards typically appear on your statement **5\u20137 business days** after the warehouse scans the return. \n\nIf you do not see the refund within that window, please let us know and we\u2019ll have our payments team investigate further."
+  },
+  {
+    "id": "dup_charge",
+    "mode": "single_agent",
+    "outcome": "exhausted",
+    "completed": false,
+    "iterations": 10,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10231) -> status=SHIPPED, placed=2026-08-28, total=$189.5, payment=Visa ****4412, refund=none recorded",
+      "inspect_payments(SA-10231) -> 3 events [AUTHORISATION, CAPTURE, CAPTURE]; 2 capture(s) totalling $379.00, 0 refund(s) totalling $0.00",
+      "search_policy('duplicate charge refund policy') -> 5 chunks: payments_and_invoices.md#5, payments_and_invoices.md#4, refunds_and_returns.md#4, refunds_and_returns.md#0, refunds_and_returns.md#5",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy('duplicate charge refund policy payments_and_invoices.md#5') -> 5 chunks: payments_and_invoices.md#4, payments_and_invoices.md#5, payments_and_invoices.md#0, refunds_and_returns.md#5, refunds_and_returns.md#4",
+      "search_policy('refund processing time') -> 5 chunks: refunds_and_returns.md#3, refunds_and_returns.md#5, shipping_and_delivery.md#3, refunds_and_returns.md#0, refunds_and_returns.md#4",
+      "search_policy('duplicate charge') -> 5 chunks: payments_and_invoices.md#4, payments_and_invoices.md#5, orders_and_cancellations.md#4, contact_and_escalation.md#2, payments_and_invoices.md#3",
+      "search_policy('refund processing time policy') -> 1 chunks: refunds_and_returns.md#3",
+      "search_policy('payments_and_invoices.md#5') -> 5 chunks: payments_and_invoices.md#0, payments_and_invoices.md#3, payments_and_invoices.md#4, payments_and_invoices.md#1, refunds_and_returns.md#5",
+      "search_policy('refunds_and_returns.md#3') -> 5 chunks: refunds_and_returns.md#0, refunds_and_returns.md#5, payments_and_invoices.md#5, refunds_and_returns.md#4, contact_and_escalation.md#4"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "search_policy",
+      "search_policy",
+      "search_policy",
+      "search_policy",
+      "search_policy"
+    ],
+    "arg_problems": [],
+    "tool_calls": 10,
+    "valid_tool_calls": 10,
+    "tokens_total": 17136,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 10,
+        "prompt_tokens": 15305,
+        "completion_tokens": 1831,
+        "total_tokens": 17136
+      }
+    },
+    "latency_ms": 51658,
+    "context_saved_chars": 9246,
+    "verifier_rejections": 0,
+    "failure_type": "hard",
+    "failure_reason": "no conclusion within 7 steps",
+    "answer": "I could not get to the bottom of this within my investigation limit, so I have handed it to a human agent (ticket TCK-8F2E8A9C)."
+  },
+  {
+    "id": "refund_pending_in_window",
+    "mode": "single_agent",
+    "outcome": "needs_input",
+    "completed": false,
+    "iterations": 6,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10099) -> status=DELIVERED, placed=2026-06-14, total=$24.99, payment=Visa ****0091, refund=PENDING $24.99",
+      "inspect_payments(SA-10099) -> 3 events [AUTHORISATION, CAPTURE, RETURN_SCANNED]; 1 capture(s) totalling $24.99, 0 refund(s) totalling $0.00",
+      "search_policy('refund processing time after return scanned') -> 5 chunks: refunds_and_returns.md#5, refunds_and_returns.md#3, shipping_and_delivery.md#3, refunds_and_returns.md#1, orders_and_cancellations.md#4",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy('refund after return scanned timeframe') -> 5 chunks: refunds_and_returns.md#5, refunds_and_returns.md#0, refunds_and_returns.md#3, payments_and_invoices.md#5, refunds_and_returns.md#4",
+      "request_information -> asked customer: Could you please let us know the date when you returned the item or when you received the return scan confirmation (if you have it)? This will help us verify the refund status."
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "request_information"
+    ],
+    "arg_problems": [],
+    "tool_calls": 6,
+    "valid_tool_calls": 6,
+    "tokens_total": 9431,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 6,
+        "prompt_tokens": 8232,
+        "completion_tokens": 1199,
+        "total_tokens": 9431
+      }
+    },
+    "latency_ms": 9856,
+    "context_saved_chars": 4301,
+    "verifier_rejections": 0,
+    "failure_type": "cascading_soft",
+    "failure_reason": "failed checks: outcome",
+    "answer": "Could you please let us know the date when you returned the item or when you received the return scan confirmation (if you have it)? This will help us verify the refund status."
+  },
+  {
+    "id": "refund_already_paid",
+    "mode": "single_agent",
+    "outcome": "exhausted",
+    "completed": false,
+    "iterations": 6,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10188) -> status=DELIVERED, placed=2026-07-30, total=$76.25, payment=Mastercard ****7781, refund=REFUNDED $76.25",
+      "inspect_payments(SA-10188) -> 3 events [AUTHORISATION, CAPTURE, REFUND]; 1 capture(s) totalling $76.25, 1 refund(s) totalling $76.25",
+      "search_policy('refund processing time after return received policy') -> 5 chunks: refunds_and_returns.md#5, refunds_and_returns.md#3, shipping_and_delivery.md#3, refunds_and_returns.md#4, refunds_and_returns.md#0",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy('refund processing time after return received') -> 3 chunks: refunds_and_returns.md#3, shipping_and_delivery.md#3, refunds_and_returns.md#5",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action."
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments"
+    ],
+    "arg_problems": [],
+    "tool_calls": 6,
+    "valid_tool_calls": 6,
+    "tokens_total": 9187,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 6,
+        "prompt_tokens": 8102,
+        "completion_tokens": 1085,
+        "total_tokens": 9187
+      }
+    },
+    "latency_ms": 6748,
+    "context_saved_chars": 3876,
+    "verifier_rejections": 0,
+    "failure_type": "hard",
+    "failure_reason": "no conclusion within 7 steps",
+    "answer": "I could not get to the bottom of this within my investigation limit, so I have handed it to a human agent (ticket TCK-2565F8E6)."
+  },
+  {
+    "id": "failed_authorisation",
+    "mode": "single_agent",
+    "outcome": "resolved",
+    "completed": true,
+    "iterations": 8,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10301) -> status=PENDING, placed=2026-09-10, total=$310.0, payment=Visa ****0091, refund=none recorded",
+      "search_policy('order pending shipping estimate not shipped yet what to tell customer') -> 5 chunks: shipping_and_delivery.md#3, shipping_and_delivery.md#0, shipping_and_delivery.md#2, orders_and_cancellations.md#1, orders_and_cancellations.md#2",
+      "search_policy('shipping time estimate pending order processing how long before shipped') -> 5 chunks: shipping_and_delivery.md#3, shipping_and_delivery.md#2, orders_and_cancellations.md#1, orders_and_cancellations.md#4, shipping_and_delivery.md#1",
+      "search_policy('order processing time pending how long before shipped') -> 5 chunks: orders_and_cancellations.md#1, shipping_and_delivery.md#3, shipping_and_delivery.md#2, orders_and_cancellations.md#5, orders_and_cancellations.md#4",
+      "search_policy('order pending processing time how long before shipped') -> 5 chunks: orders_and_cancellations.md#1, shipping_and_delivery.md#3, orders_and_cancellations.md#4, shipping_and_delivery.md#2, orders_and_cancellations.md#5",
+      "inspect_payments(SA-10301) -> 1 events [AUTHORISATION_FAILED]; 0 capture(s) totalling $0.00, 0 refund(s) totalling $0.00",
+      "search_policy('authorisation failed payment declined order pending') -> 5 chunks: orders_and_cancellations.md#5, payments_and_invoices.md#2, orders_and_cancellations.md#4, refunds_and_returns.md#5, orders_and_cancellations.md#1",
+      "resolve_case -> 3 finding(s), 3 citation(s)"
+    ],
+    "tools_used": [
+      "inspect_order",
+      "search_policy",
+      "search_policy",
+      "search_policy",
+      "search_policy",
+      "inspect_payments",
+      "search_policy",
+      "resolve_case"
+    ],
+    "arg_problems": [],
+    "tool_calls": 8,
+    "valid_tool_calls": 8,
+    "tokens_total": 13965,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 8,
+        "prompt_tokens": 12397,
+        "completion_tokens": 1568,
+        "total_tokens": 13965
+      }
+    },
+    "latency_ms": 19596,
+    "context_saved_chars": 8687,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Hi there \u2013 I\u2019ve looked into order\u202fSA\u201110301 for you. The payment authorisation for this order failed, which is why the order is still showing as **PENDING** and hasn\u2019t moved to shipping. According to our policy, an order with a failed payment stays in the pending state for up to 60\u202fminutes and is then automatically cancelled; no stock is held after that point. Because the payment never captured, the order cannot be processed or shipped.\n\nTo receive your items, you\u2019ll need to place a new order or retry the payment using a different card or payment method. If you\u2019d like help with that, just let me know and I can guide you through the next steps."
+  },
+  {
+    "id": "missing_order_id",
+    "mode": "single_agent",
+    "outcome": "needs_input",
+    "completed": true,
+    "iterations": 1,
+    "max_steps": 4,
+    "trajectory": [
+      "request_information -> asked customer: Could you please provide the order ID and the amount you believe was overcharged, as well as any reference number from your bank statement or payment receipt?"
+    ],
+    "tools_used": [
+      "request_information"
+    ],
+    "arg_problems": [],
+    "tool_calls": 1,
+    "valid_tool_calls": 1,
+    "tokens_total": 1139,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 1,
+        "prompt_tokens": 1014,
+        "completion_tokens": 125,
+        "total_tokens": 1139
+      }
+    },
+    "latency_ms": 1273,
+    "context_saved_chars": 0,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Could you please provide the order ID and the amount you believe was overcharged, as well as any reference number from your bank statement or payment receipt?"
+  },
+  {
+    "id": "unknown_order",
+    "mode": "single_agent",
+    "outcome": "needs_input",
+    "completed": true,
+    "iterations": 2,
+    "max_steps": 4,
+    "trajectory": [
+      "inspect_order(SA-99999) -> NOT FOUND",
+      "request_information -> asked customer: Could you please double\u2011check the order number and provide the correct order ID? The ID you gave (SA-99999) does not match any order in our system."
+    ],
+    "tools_used": [
+      "inspect_order",
+      "request_information"
+    ],
+    "arg_problems": [],
+    "tool_calls": 2,
+    "valid_tool_calls": 2,
+    "tokens_total": 2230,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 2,
+        "prompt_tokens": 2066,
+        "completion_tokens": 164,
+        "total_tokens": 2230
+      }
+    },
+    "latency_ms": 1392,
+    "context_saved_chars": 68,
+    "verifier_rejections": 0,
+    "failure_type": null,
+    "failure_reason": null,
+    "answer": "Could you please double\u2011check the order number and provide the correct order ID? The ID you gave (SA-99999) does not match any order in our system."
+  },
+  {
+    "id": "lost_parcel_escalation",
+    "mode": "single_agent",
+    "outcome": "exhausted",
+    "completed": false,
+    "iterations": 5,
+    "max_steps": 7,
+    "trajectory": [
+      "inspect_order(SA-10188) -> status=DELIVERED, placed=2026-07-30, total=$76.25, payment=Mastercard ****7781, refund=REFUNDED $76.25",
+      "inspect_payments(SA-10188) -> 3 events [AUTHORISATION, CAPTURE, REFUND]; 1 capture(s) totalling $76.25, 1 refund(s) totalling $76.25",
+      "search_policy('refund not received item delivered but not arrived timeframe appear on statement') -> 5 chunks: refunds_and_returns.md#5, shipping_and_delivery.md#3, refunds_and_returns.md#3, payments_and_invoices.md#5, refunds_and_returns.md#4",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy REPEATED -- you already ran this at step 3 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action."
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy"
+    ],
+    "arg_problems": [],
+    "tool_calls": 5,
+    "valid_tool_calls": 5,
+    "tokens_total": 7270,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 5,
+        "prompt_tokens": 6520,
+        "completion_tokens": 750,
+        "total_tokens": 7270
+      }
+    },
+    "latency_ms": 4882,
+    "context_saved_chars": 2807,
+    "verifier_rejections": 0,
+    "failure_type": "hard",
+    "failure_reason": "no conclusion within 7 steps",
+    "answer": "I could not get to the bottom of this within my investigation limit, so I have handed it to a human agent (ticket TCK-68ABA857)."
+  },
+  {
+    "id": "dup_charge_no_ledger",
+    "mode": "fault_injection",
+    "outcome": "exhausted",
+    "completed": false,
+    "iterations": 5,
+    "max_steps": 6,
+    "trajectory": [
+      "inspect_order(SA-10231) -> status=SHIPPED, placed=2026-08-28, total=$189.5, payment=Visa ****4412, refund=none recorded",
+      "inspect_payments -> UNAVAILABLE: payment ledger service is unreachable (injected fault)",
+      "search_policy('duplicate charge refund policy') -> 5 chunks: payments_and_invoices.md#5, payments_and_invoices.md#4, refunds_and_returns.md#4, refunds_and_returns.md#0, refunds_and_returns.md#5",
+      "inspect_payments REPEATED -- you already ran this at step 2 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action.",
+      "search_policy REPEATED -- you already ran this at step 3 and the result has not changed. Do NOT run it again. Either conclude with what you have, or take a genuinely different action."
+    ],
+    "tools_used": [
+      "inspect_order",
+      "inspect_payments",
+      "search_policy",
+      "inspect_payments",
+      "search_policy"
+    ],
+    "arg_problems": [],
+    "tool_calls": 5,
+    "valid_tool_calls": 5,
+    "tokens_total": 6619,
+    "tokens_by_role": {
+      "investigator": {
+        "calls": 5,
+        "prompt_tokens": 6123,
+        "completion_tokens": 496,
+        "total_tokens": 6619
+      }
+    },
+    "latency_ms": 6559,
+    "context_saved_chars": 1923,
+    "verifier_rejections": 0,
+    "failure_type": "hard",
+    "failure_reason": "no conclusion within 6 steps",
+    "answer": "I could not get to the bottom of this within my investigation limit, so I have handed it to a human agent (ticket TCK-269359E4)."
+  }
+]

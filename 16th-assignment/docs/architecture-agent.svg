@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 940" width="1480" height="940" font-family="Segoe UI, Inter, system-ui, sans-serif">
+  <defs>
+    <style>
+      .t     { fill:#0f172a; font-size:14px; }
+      .lbl   { fill:#0f172a; font-size:15px; font-weight:600; }
+      .sub   { fill:#475569; font-size:12px; }
+      .tiny  { fill:#64748b; font-size:11px; }
+      .num   { fill:#4f46e5; font-size:12px; font-weight:700; }
+      .ok    { fill:#15803d; font-size:11px; font-weight:600; }
+      .bad   { fill:#b91c1c; font-size:11px; font-weight:600; }
+      .box   { fill:#ffffff; stroke:#cbd5e1; stroke-width:1.5; rx:10; }
+      .stage { fill:#eef2ff; stroke:#c7d2fe; stroke-width:1.5; rx:10; }
+      .store { fill:#f0fdf4; stroke:#bbf7d0; stroke-width:1.5; rx:10; }
+      .agent { fill:#fffbeb; stroke:#fbbf24; stroke-width:2; rx:12; }
+      .audit { fill:#faf5ff; stroke:#d8b4fe; stroke-width:2; rx:12; }
+      .term  { fill:#ecfdf5; stroke:#6ee7b7; stroke-width:1.5; rx:10; }
+      .stop  { fill:#fef2f2; stroke:#fecaca; stroke-width:1.5; rx:10; }
+      .wrap  { fill:none; stroke:#94a3b8; stroke-width:1.5; stroke-dasharray:6 4; rx:14; }
+      .line  { stroke:#64748b; stroke-width:1.8; fill:none; }
+      .acc   { stroke:#4f46e5; stroke-width:2.4; fill:none; }
+      .green { stroke:#15803d; stroke-width:2; fill:none; }
+      .red   { stroke:#b91c1c; stroke-width:2; fill:none; stroke-dasharray:5 4; }
+      .head  { fill:#64748b; }
+      .headA { fill:#4f46e5; }
+      .headG { fill:#15803d; }
+      .headR { fill:#b91c1c; }
+    </style>
+  </defs>
+
+  <rect width="1480" height="940" fill="#f8fafc"/>
+  <text x="40" y="44" class="lbl" font-size="23">ShopAssist AI — W16 agentic loop</text>
+  <text x="40" y="68" class="sub">Dispute investigation · single investigator loop + verifier sub-agent · POST /investigate</text>
+
+  <!-- customer -->
+  <rect x="40" y="112" width="150" height="72" class="box"/>
+  <text x="115" y="140" class="t" text-anchor="middle" font-weight="600">Complaint</text>
+  <text x="115" y="160" class="tiny" text-anchor="middle">"charged twice for</text>
+  <text x="115" y="175" class="tiny" text-anchor="middle">SA-10231"</text>
+
+  <!-- ============ investigator loop ============ -->
+  <rect x="230" y="96" width="640" height="470" class="wrap"/>
+  <text x="250" y="120" class="lbl">Investigator — agentic loop, max 8 steps</text>
+  <text x="250" y="139" class="tiny">rebuilt each iteration: case file + last payload only</text>
+
+  <rect x="250" y="156" width="270" height="104" class="agent"/>
+  <text x="385" y="182" class="t" text-anchor="middle" font-weight="600">Decide the next action</text>
+  <text x="385" y="203" class="tiny" text-anchor="middle">model picks ONE tool</text>
+  <text x="385" y="220" class="tiny" text-anchor="middle">sees only what it has learned,</text>
+  <text x="385" y="237" class="tiny" text-anchor="middle">not the raw history</text>
+  <text x="385" y="254" class="tiny" text-anchor="middle">tools on · no response_format</text>
+
+  <!-- case file -->
+  <rect x="580" y="156" width="270" height="104" class="store"/>
+  <text x="715" y="180" class="t" text-anchor="middle" font-weight="600">CASE FILE</text>
+  <text x="715" y="200" class="tiny" text-anchor="middle">append-only structured notes</text>
+  <text x="715" y="217" class="tiny" text-anchor="middle">1. inspect_order → SHIPPED, no refund</text>
+  <text x="715" y="233" class="tiny" text-anchor="middle">2. inspect_payments → 2 CAPTUREs $379</text>
+  <text x="715" y="250" class="tiny" text-anchor="middle">3. search_policy → payments#4</text>
+
+  <!-- investigative tools -->
+  <rect x="250" y="296" width="270" height="112" class="stage"/>
+  <text x="385" y="320" class="t" text-anchor="middle" font-weight="600">Investigative tools</text>
+  <text x="385" y="342" class="tiny" text-anchor="middle">inspect_order</text>
+  <text x="385" y="360" class="tiny" text-anchor="middle">inspect_payments  ← the branch point</text>
+  <text x="385" y="378" class="tiny" text-anchor="middle">search_policy</text>
+  <text x="385" y="397" class="tiny" text-anchor="middle">loop continues</text>
+
+  <!-- clearing -->
+  <rect x="580" y="296" width="270" height="112" class="store"/>
+  <text x="715" y="320" class="t" text-anchor="middle" font-weight="600">Context engineering</text>
+  <text x="715" y="342" class="tiny" text-anchor="middle">clear tool results older than</text>
+  <text x="715" y="359" class="tiny" text-anchor="middle">the current step</text>
+  <text x="715" y="377" class="tiny" text-anchor="middle">note stays · payload moves to</text>
+  <text x="715" y="394" class="tiny" text-anchor="middle">the evidence store</text>
+
+  <!-- terminal -->
+  <rect x="250" y="444" width="600" height="104" class="term"/>
+  <text x="550" y="468" class="t" text-anchor="middle" font-weight="600">Terminal actions — the model chooses when to stop</text>
+  <text x="380" y="492" class="tiny" text-anchor="middle">resolve_case</text>
+  <text x="550" y="492" class="tiny" text-anchor="middle">request_information</text>
+  <text x="730" y="492" class="tiny" text-anchor="middle">escalate_case</text>
+  <text x="380" y="512" class="tiny" text-anchor="middle">evidence explains it</text>
+  <text x="550" y="512" class="tiny" text-anchor="middle">only the customer knows</text>
+  <text x="730" y="512" class="tiny" text-anchor="middle">policy or missing evidence</text>
+  <text x="550" y="536" class="tiny" text-anchor="middle">hard stop: 8 steps · 2 revisions · the loop cannot run forever</text>
+
+  <!-- ============ verifier ============ -->
+  <rect x="920" y="96" width="520" height="300" class="wrap"/>
+  <text x="940" y="120" class="lbl">Verifier sub-agent — isolated context</text>
+
+  <rect x="940" y="140" width="480" height="150" class="audit"/>
+  <text x="1180" y="166" class="t" text-anchor="middle" font-weight="600">Claims auditor</text>
+  <text x="1180" y="188" class="tiny" text-anchor="middle">receives ONLY: complaint · draft answer · claims ·</text>
+  <text x="1180" y="205" class="tiny" text-anchor="middle">raw evidence pulled fresh from the evidence store</text>
+  <text x="1180" y="226" class="tiny" text-anchor="middle">never sees the investigator's trajectory</text>
+  <text x="1180" y="247" class="tiny" text-anchor="middle">response_format · no tools · temperature 0</text>
+  <text x="1180" y="270" class="tiny" text-anchor="middle">rejects unsupported facts, invented timeframes,</text>
+  <text x="1180" y="284" class="tiny" text-anchor="middle">and actions the assistant cannot perform</text>
+
+  <rect x="940" y="308" width="230" height="72" class="term"/>
+  <text x="1055" y="334" class="ok" text-anchor="middle">PASS</text>
+  <text x="1055" y="355" class="tiny" text-anchor="middle">answer goes to the customer</text>
+  <text x="1055" y="371" class="tiny" text-anchor="middle">with findings + citations</text>
+
+  <rect x="1190" y="308" width="230" height="72" class="stop"/>
+  <text x="1305" y="334" class="bad" text-anchor="middle">FAIL</text>
+  <text x="1305" y="355" class="tiny" text-anchor="middle">problems appended to the case</text>
+  <text x="1305" y="371" class="tiny" text-anchor="middle">file → loop again (max 2)</text>
+
+  <rect x="940" y="412" width="480" height="86" class="stop"/>
+  <text x="1180" y="438" class="t" text-anchor="middle" font-weight="600">Out of revisions, or verifier unavailable</text>
+  <text x="1180" y="459" class="tiny" text-anchor="middle">escalate to a human with a ticket — never ship an</text>
+  <text x="1180" y="476" class="tiny" text-anchor="middle">answer about someone's money that failed its audit</text>
+
+  <!-- arrows -->
+  <path d="M 190 148 L 246 148 L 246 190 L 248 190" class="acc"/>
+  <path d="M 520 208 L 578 208" class="line"/>
+  <path d="M 385 260 L 385 294" class="acc"/>
+  <path d="M 715 260 L 715 294" class="line"/>
+  <path d="M 250 352 L 214 352 L 214 200 L 248 200" class="acc"/>
+  <text x="150" y="300" class="num" text-anchor="middle">next iteration</text>
+  <text x="150" y="318" class="tiny" text-anchor="middle">(what it found decides</text>
+  <text x="150" y="334" class="tiny" text-anchor="middle">what it does next)</text>
+  <path d="M 385 408 L 385 442" class="acc"/>
+  <path d="M 850 470 L 890 470 L 890 215 L 938 215" class="acc"/>
+  <text x="893" y="500" class="num" text-anchor="middle">resolve_case</text>
+  <text x="893" y="516" class="tiny" text-anchor="middle">is audited before</text>
+  <text x="893" y="531" class="tiny" text-anchor="middle">it is sent</text>
+  <path d="M 1055 290 L 1055 306" class="green"/>
+  <path d="M 1305 290 L 1305 306" class="red"/>
+  <path d="M 1190 344 L 1150 344 L 1150 580 L 560 580 L 560 550" class="red"/>
+  <text x="880" y="574" class="bad" text-anchor="middle">revise: fix these specific problems</text>
+  <path d="M 1305 380 L 1305 400 L 1180 400 L 1180 410" class="red"/>
+
+  <!-- ============ evidence store + tools ============ -->
+  <rect x="40" y="620" width="1400" height="180" class="wrap"/>
+  <text x="60" y="646" class="lbl">Evidence and data</text>
+
+  <rect x="60" y="662" width="250" height="112" class="store"/>
+  <text x="185" y="688" class="t" text-anchor="middle" font-weight="600">Evidence store</text>
+  <text x="185" y="710" class="tiny" text-anchor="middle">full payloads, keyed by step</text>
+  <text x="185" y="728" class="tiny" text-anchor="middle">out of the prompt,</text>
+  <text x="185" y="745" class="tiny" text-anchor="middle">read by the verifier</text>
+
+  <rect x="340" y="662" width="230" height="112" class="store"/>
+  <text x="455" y="688" class="t" text-anchor="middle" font-weight="600">payments.json</text>
+  <text x="455" y="710" class="tiny" text-anchor="middle">authorisations · captures</text>
+  <text x="455" y="728" class="tiny" text-anchor="middle">refunds · return scans</text>
+  <text x="455" y="746" class="tiny" text-anchor="middle">the W16 branch evidence</text>
+
+  <rect x="600" y="662" width="220" height="112" class="store"/>
+  <text x="710" y="688" class="t" text-anchor="middle" font-weight="600">orders.json</text>
+  <text x="710" y="712" class="tiny" text-anchor="middle">status · totals</text>
+  <text x="710" y="730" class="tiny" text-anchor="middle">payment method</text>
+
+  <rect x="850" y="662" width="240" height="112" class="store"/>
+  <text x="970" y="688" class="t" text-anchor="middle" font-weight="600">Chroma + KB</text>
+  <text x="970" y="712" class="tiny" text-anchor="middle">policy chunks (W15)</text>
+  <text x="970" y="730" class="tiny" text-anchor="middle">capped to 700 chars each</text>
+
+  <rect x="1120" y="662" width="300" height="112" class="box"/>
+  <text x="1270" y="688" class="t" text-anchor="middle" font-weight="600">Evaluation harness</text>
+  <text x="1270" y="710" class="tiny" text-anchor="middle">completion · tool-arg validity</text>
+  <text x="1270" y="728" class="tiny" text-anchor="middle">trajectory · tokens by role</text>
+  <text x="1270" y="746" class="tiny" text-anchor="middle">failure taxonomy · fault injection</text>
+
+  <path d="M 250 388 L 190 388 L 190 660" class="line"/>
+  <path d="M 940 215 L 900 215 L 900 620 L 310 620 L 310 700" class="line"/>
+
+  <text x="40" y="830" class="tiny">Why a fixed pipeline cannot do this: the order record for SA-10231 looks ordinary — only the payment ledger reveals a second CAPTURE, and that discovery</text>
+  <text x="40" y="850" class="tiny">changes both the policy to look up and the outcome to choose. The same complaint text can end in resolve, ask, or escalate depending on what step 2 returns.</text>
+  <text x="40" y="878" class="tiny">Everything from W15 is unchanged and still available: POST /chat remains the single-pass RAG path; POST /investigate is the agentic one.</text>
+  <polygon points="248,190 239,185 239,195" class="headA"/>
+  <polygon points="578,208 569,203 569,213" class="head"/>
+  <polygon points="385,294 380,285 390,285" class="headA"/>
+  <polygon points="715,294 710,285 720,285" class="head"/>
+  <polygon points="248,200 239,195 239,205" class="headA"/>
+  <polygon points="385,442 380,433 390,433" class="headA"/>
+  <polygon points="938,215 929,210 929,220" class="headA"/>
+  <polygon points="1055,306 1050,297 1060,297" class="headG"/>
+  <polygon points="1305,306 1300,297 1310,297" class="headR"/>
+  <polygon points="560,550 555,559 565,559" class="headR"/>
+  <polygon points="1180,410 1175,401 1185,401" class="headR"/>
+  <polygon points="190,660 185,651 195,651" class="head"/>
+  <polygon points="310,700 305,691 315,691" class="head"/>
+</svg>

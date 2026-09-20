@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 900" width="1480" height="900" font-family="Segoe UI, Inter, system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f46e5"/>
+    </marker>
+    <style>
+      .t     { fill:#0f172a; font-size:14px; }
+      .lbl   { fill:#0f172a; font-size:15px; font-weight:600; }
+      .sub   { fill:#475569; font-size:12px; }
+      .tiny  { fill:#64748b; font-size:11px; }
+      .num   { fill:#4f46e5; font-size:12px; font-weight:700; }
+      .box   { fill:#ffffff; stroke:#cbd5e1; stroke-width:1.5; rx:10; }
+      .stage { fill:#eef2ff; stroke:#c7d2fe; stroke-width:1.5; rx:10; }
+      .store { fill:#f0fdf4; stroke:#bbf7d0; stroke-width:1.5; rx:10; }
+      .prov  { fill:#fffbeb; stroke:#fde68a; stroke-width:1.5; rx:10; }
+      .deg   { fill:#fef2f2; stroke:#fecaca; stroke-width:1.5; rx:10; }
+      .wrap  { fill:none; stroke:#94a3b8; stroke-width:1.5; stroke-dasharray:6 4; rx:14; }
+      .line  { stroke:#64748b; stroke-width:1.8; fill:none; }
+      .acc   { stroke:#4f46e5; stroke-width:2.2; fill:none; }
+      .head  { fill:#64748b; }
+      .headA { fill:#4f46e5; }
+      .dash  { stroke:#94a3b8; stroke-width:1.5; fill:none; stroke-dasharray:5 4; }
+    </style>
+  </defs>
+
+  <rect width="1480" height="900" fill="#f8fafc"/>
+
+  <text x="40" y="46" class="lbl" font-size="24">ShopAssist AI — architecture</text>
+  <text x="40" y="70" class="sub">RAG + tool-calling support assistant · FastAPI · Chroma · ONNX intent router · Claude / OpenAI-compatible providers</text>
+
+  <!-- ================= client ================= -->
+  <rect x="40" y="120" width="130" height="72" class="box"/>
+  <text x="105" y="150" class="t" text-anchor="middle" font-weight="600">Customer</text>
+  <text x="105" y="170" class="tiny" text-anchor="middle">browser</text>
+
+  <rect x="40" y="220" width="130" height="86" class="box"/>
+  <text x="105" y="248" class="t" text-anchor="middle" font-weight="600">Streamlit UI</text>
+  <text x="105" y="268" class="tiny" text-anchor="middle">app/ui.py</text>
+  <text x="105" y="286" class="tiny" text-anchor="middle">port 8501</text>
+
+  <line x1="105" y1="192" x2="105" y2="218" class="line"/>
+  <path d="M 170 263 L 208 263" class="acc"/>
+  <text x="189" y="253" class="num" text-anchor="middle">POST /chat</text>
+
+  <!-- ================= API service ================= -->
+  <rect x="210" y="104" width="800" height="330" class="wrap"/>
+  <text x="230" y="128" class="lbl">FastAPI service · app/main.py · port 8080 · async</text>
+
+  <!-- stage 1 -->
+  <rect x="230" y="150" width="150" height="86" class="stage"/>
+  <text x="243" y="172" class="num">1</text>
+  <text x="305" y="186" class="t" text-anchor="middle" font-weight="600">Rate limiter</text>
+  <text x="305" y="205" class="tiny" text-anchor="middle">token bucket</text>
+  <text x="305" y="221" class="tiny" text-anchor="middle">429 + Retry-After</text>
+
+  <!-- stage 2 -->
+  <rect x="404" y="150" width="150" height="86" class="stage"/>
+  <text x="417" y="172" class="num">2</text>
+  <text x="479" y="186" class="t" text-anchor="middle" font-weight="600">Response cache</text>
+  <text x="479" y="205" class="tiny" text-anchor="middle">TTL + LRU</text>
+  <text x="479" y="221" class="tiny" text-anchor="middle">hit → ~0 ms</text>
+
+  <!-- stage 3: parallel -->
+  <rect x="578" y="142" width="176" height="102" fill="none" stroke="#a5b4fc" stroke-width="1.5" stroke-dasharray="4 3" rx="10"/>
+  <text x="591" y="160" class="num">3</text>
+  <text x="666" y="160" class="tiny" text-anchor="middle">asyncio.gather</text>
+  <rect x="590" y="168" width="152" height="32" class="stage"/>
+  <text x="666" y="189" class="t" text-anchor="middle" font-size="12.5">ONNX intent router</text>
+  <rect x="590" y="204" width="152" height="32" class="stage"/>
+  <text x="666" y="225" class="t" text-anchor="middle" font-size="12.5">vector retrieval</text>
+
+  <!-- stage 4 -->
+  <rect x="778" y="150" width="212" height="86" class="stage"/>
+  <text x="791" y="172" class="num">4</text>
+  <text x="884" y="186" class="t" text-anchor="middle" font-weight="600">Orchestrator</text>
+  <text x="884" y="205" class="tiny" text-anchor="middle">system prompt + context</text>
+  <text x="884" y="221" class="tiny" text-anchor="middle">tool loop · app/llm.py</text>
+
+  <!-- stage 5 -->
+  <rect x="404" y="330" width="290" height="80" class="stage"/>
+  <text x="417" y="352" class="num">5</text>
+  <text x="549" y="366" class="t" text-anchor="middle" font-weight="600">Schema validation</text>
+  <text x="549" y="385" class="tiny" text-anchor="middle">Pydantic AssistantAnswer — invalid ⇒ next tier</text>
+  <text x="549" y="401" class="tiny" text-anchor="middle">answer · intent · confidence · citations · actions · escalate</text>
+
+  <path d="M 380 193 L 402 193" class="acc"/>
+  <path d="M 554 193 L 576 193" class="acc"/>
+  <path d="M 754 193 L 776 193" class="acc"/>
+  <path d="M 884 236 L 884 370 L 696 370" class="acc"/>
+  <path d="M 404 370 L 105 370 L 105 308" class="acc"/>
+  <text x="250" y="362" class="num" text-anchor="middle">validated JSON response</text>
+
+  <!-- ================= providers ================= -->
+  <rect x="1050" y="104" width="390" height="330" class="wrap"/>
+  <text x="1070" y="128" class="lbl">Provider ladder — PROVIDER picks the order</text>
+
+  <rect x="1070" y="146" width="350" height="76" class="prov"/>
+  <text x="1084" y="170" class="num">tier 1</text>
+  <text x="1245" y="170" class="t" text-anchor="middle" font-weight="600">Claude — Anthropic API</text>
+  <text x="1245" y="190" class="tiny" text-anchor="middle">tools + output_config.format json_schema</text>
+  <text x="1245" y="208" class="tiny" text-anchor="middle">effort (opus-5 rejects temperature/top_p)</text>
+
+  <rect x="1070" y="234" width="350" height="86" class="prov"/>
+  <text x="1084" y="258" class="num">tier 2</text>
+  <text x="1245" y="258" class="t" text-anchor="middle" font-weight="600">OpenAI-compatible endpoint</text>
+  <text x="1245" y="277" class="tiny" text-anchor="middle">Groq · Gemini · OpenRouter · vLLM · Ollama</text>
+  <text x="1245" y="294" class="tiny" text-anchor="middle">2 phases: tools, then response_format</text>
+  <text x="1245" y="311" class="tiny" text-anchor="middle">temperature + top_p live here</text>
+
+  <rect x="1070" y="332" width="350" height="72" class="deg"/>
+  <text x="1084" y="356" class="num">tier 3</text>
+  <text x="1245" y="356" class="t" text-anchor="middle" font-weight="600">Degraded</text>
+  <text x="1245" y="376" class="tiny" text-anchor="middle">retrieved policy text + escalate: true</text>
+  <text x="1245" y="393" class="tiny" text-anchor="middle">contract never breaks</text>
+
+  <path d="M 990 184 L 1068 184" class="line"/>
+  <path d="M 990 196 L 1030 196 L 1030 277 L 1068 277" class="dash"/>
+  <path d="M 990 208 L 1014 208 L 1014 368 L 1068 368" class="dash"/>
+  <text x="1030" y="470" class="tiny" text-anchor="middle">retry → fallback → degrade</text>
+
+  <!-- ================= dependencies ================= -->
+  <rect x="230" y="500" width="250" height="118" class="store"/>
+  <text x="355" y="528" class="t" text-anchor="middle" font-weight="600">Chroma vector DB</text>
+  <text x="355" y="549" class="tiny" text-anchor="middle">persistent · cosine HNSW</text>
+  <text x="355" y="567" class="tiny" text-anchor="middle">all-MiniLM-L6-v2, 384-dim</text>
+  <text x="355" y="585" class="tiny" text-anchor="middle">onnxruntime — no torch, no API cost</text>
+  <text x="355" y="605" class="tiny" text-anchor="middle">35 chunks from 6 policy documents</text>
+
+  <rect x="510" y="500" width="230" height="118" class="store"/>
+  <text x="625" y="528" class="t" text-anchor="middle" font-weight="600">ONNX intent router</text>
+  <text x="625" y="549" class="tiny" text-anchor="middle">W14 classifier → models/router</text>
+  <text x="625" y="567" class="tiny" text-anchor="middle">11 support queues · 429 KB</text>
+  <text x="625" y="585" class="tiny" text-anchor="middle">99.81% acc · 0.9985 macro-F1</text>
+  <text x="625" y="605" class="tiny" text-anchor="middle">~1 ms CPU, zero tokens</text>
+
+  <rect x="770" y="500" width="240" height="118" class="store"/>
+  <text x="890" y="528" class="t" text-anchor="middle" font-weight="600">Tools — app/tools.py</text>
+  <text x="890" y="549" class="tiny" text-anchor="middle">lookup_order</text>
+  <text x="890" y="567" class="tiny" text-anchor="middle">search_knowledge_base</text>
+  <text x="890" y="585" class="tiny" text-anchor="middle">create_support_ticket</text>
+  <text x="890" y="605" class="tiny" text-anchor="middle">orders.json · tickets.jsonl</text>
+
+  <path d="M 666 244 L 666 300 L 625 300 L 625 498" class="line"/>
+  <path d="M 666 244 L 666 300 L 355 300 L 355 498" class="line"/>
+  <path d="M 884 236 L 884 300 L 890 300 L 890 498" class="line"/>
+  <text x="960" y="330" class="tiny">tool calls</text>
+
+  <!-- ingestion -->
+  <rect x="40" y="500" width="160" height="118" class="box"/>
+  <text x="120" y="528" class="t" text-anchor="middle" font-weight="600">Knowledge base</text>
+  <text x="120" y="549" class="tiny" text-anchor="middle">data/kb/*.md</text>
+  <text x="120" y="567" class="tiny" text-anchor="middle">.txt · .pdf</text>
+  <text x="120" y="589" class="tiny" text-anchor="middle">ingest → chunk 900/150</text>
+  <text x="120" y="606" class="tiny" text-anchor="middle">→ embed → upsert</text>
+  <path d="M 200 559 L 228 559" class="line"/>
+
+  <!-- ================= deployment ================= -->
+  <rect x="40" y="662" width="1400" height="196" class="wrap"/>
+  <text x="60" y="688" class="lbl">Deployment — docker compose</text>
+
+  <rect x="60" y="704" width="230" height="80" class="box"/>
+  <text x="175" y="730" class="t" text-anchor="middle" font-weight="600">api</text>
+  <text x="175" y="750" class="tiny" text-anchor="middle">uvicorn :8080</text>
+  <text x="175" y="768" class="tiny" text-anchor="middle">index baked in at build</text>
+
+  <rect x="320" y="704" width="230" height="80" class="box"/>
+  <text x="435" y="730" class="t" text-anchor="middle" font-weight="600">ui</text>
+  <text x="435" y="750" class="tiny" text-anchor="middle">streamlit :8501</text>
+  <text x="435" y="768" class="tiny" text-anchor="middle">waits on api healthcheck</text>
+
+  <rect x="580" y="704" width="230" height="80" class="box"/>
+  <text x="695" y="730" class="t" text-anchor="middle" font-weight="600">vllm</text>
+  <text x="695" y="750" class="tiny" text-anchor="middle">Mistral-7B, OpenAI API :8000</text>
+  <text x="695" y="768" class="tiny" text-anchor="middle">profile: gpu (opt-in)</text>
+
+  <rect x="840" y="704" width="200" height="80" class="store"/>
+  <text x="940" y="730" class="t" text-anchor="middle" font-weight="600">volumes</text>
+  <text x="940" y="750" class="tiny" text-anchor="middle">chroma index</text>
+  <text x="940" y="768" class="tiny" text-anchor="middle">tickets</text>
+
+  <rect x="1070" y="704" width="350" height="80" class="prov"/>
+  <text x="1245" y="730" class="t" text-anchor="middle" font-weight="600">hosted providers</text>
+  <text x="1245" y="750" class="tiny" text-anchor="middle">api.anthropic.com · api.groq.com</text>
+  <text x="1245" y="768" class="tiny" text-anchor="middle">https, key from .env</text>
+
+  <path d="M 320 744 L 292 744" class="line"/>
+  <path d="M 580 744 L 552 744" class="dash"/>
+  <path d="M 1068 744 L 1042 744" class="line"/>
+
+  <text x="60" y="828" class="tiny">docker compose up --build → api + ui        ·        docker compose --profile gpu up → adds the local vLLM model</text>
+  <text x="60" y="848" class="tiny">Reliability throughout: tenacity retries with jitter (both SDKs' error classes) · token-bucket rate limit · provider fallback · degraded tier · tools never raise</text>
+  <polygon points="105,218 100,209 110,209" class="head"/>
+  <polygon points="208,263 199,258 199,268" class="headA"/>
+  <polygon points="402,193 393,188 393,198" class="headA"/>
+  <polygon points="576,193 567,188 567,198" class="headA"/>
+  <polygon points="776,193 767,188 767,198" class="headA"/>
+  <polygon points="696,370 705,365 705,375" class="headA"/>
+  <polygon points="105,308 100,317 110,317" class="headA"/>
+  <polygon points="1068,184 1059,179 1059,189" class="head"/>
+  <polygon points="1068,277 1059,272 1059,282" class="head"/>
+  <polygon points="1068,368 1059,363 1059,373" class="head"/>
+  <polygon points="625,498 620,489 630,489" class="head"/>
+  <polygon points="355,498 350,489 360,489" class="head"/>
+  <polygon points="890,498 885,489 895,489" class="head"/>
+  <polygon points="228,559 219,554 219,564" class="head"/>
+  <polygon points="292,744 301,739 301,749" class="head"/>
+  <polygon points="552,744 561,739 561,749" class="head"/>
+  <polygon points="1042,744 1051,739 1051,749" class="head"/>
+</svg>

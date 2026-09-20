@@ -1,0 +1,23 @@
+{
+  "SA-10231": [
+    {"event": "AUTHORISATION", "at": "2026-08-28", "amount_usd": 189.5, "method": "Visa ****4412", "reference": "AUTH-77120"},
+    {"event": "CAPTURE", "at": "2026-08-29", "amount_usd": 189.5, "method": "Visa ****4412", "reference": "CAP-77120"},
+    {"event": "CAPTURE", "at": "2026-08-29", "amount_usd": 189.5, "method": "Visa ****4412", "reference": "CAP-77121", "note": "second capture against the same order"}
+  ],
+  "SA-10244": [
+    {"event": "AUTHORISATION", "at": "2026-09-08", "amount_usd": 42.0, "method": "PayPal", "reference": "AUTH-88301"}
+  ],
+  "SA-10188": [
+    {"event": "AUTHORISATION", "at": "2026-07-30", "amount_usd": 76.25, "method": "Mastercard ****7781", "reference": "AUTH-65010"},
+    {"event": "CAPTURE", "at": "2026-07-31", "amount_usd": 76.25, "method": "Mastercard ****7781", "reference": "CAP-65010"},
+    {"event": "REFUND", "at": "2026-08-20", "amount_usd": 76.25, "method": "Mastercard ****7781", "reference": "REF-65010"}
+  ],
+  "SA-10301": [
+    {"event": "AUTHORISATION_FAILED", "at": "2026-09-10", "amount_usd": 310.0, "method": "Visa ****0091", "reference": "AUTH-91444", "decline_reason": "insufficient funds"}
+  ],
+  "SA-10099": [
+    {"event": "AUTHORISATION", "at": "2026-06-14", "amount_usd": 24.99, "method": "Visa ****0091", "reference": "AUTH-51002"},
+    {"event": "CAPTURE", "at": "2026-06-15", "amount_usd": 24.99, "method": "Visa ****0091", "reference": "CAP-51002"},
+    {"event": "RETURN_SCANNED", "at": "2026-09-05", "amount_usd": 24.99, "method": "Visa ****0091", "reference": "RET-51002"}
+  ]
+}
